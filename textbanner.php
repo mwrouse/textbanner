@@ -27,7 +27,7 @@ class TextBanner extends Module
         $this->name = 'textbanner';
         $this->tab = 'front_office_features';
         $this->version = '2.1.0';
-        $this->author = 'thirty bees';
+        $this->author = 'Michael Rouse';
         $this->need_instance = 0;
 
         $this->bootstrap = true;
@@ -287,14 +287,14 @@ class TextBanner extends Module
                         'lang'  => true,
                         'label' => $this->l('Banner Link'),
                         'name'  => static::LINK,
-                        'desc'  => $this->l('Enter the link associated to your banner. When clicking on the banner, the link opens in the same window. If no link is entered, it redirects to the homepage.'),
+                        'desc'  => $this->l('Enter the link associated to your banner. When clicking on the banner, the link opens in the same window. If no link is entered, clicking will do nothing'),
                     ],
                     [
                         'type' => 'text',
                         'lang' => true,
                         'label' => $this->l('Banner Text'),
                         'name' => static::TEXT,
-                        'desc' => $this->l('If you do not want an image, place the text of the banner here.')
+                        'desc' => $this->l('The contents of the banner')
                     ],
                     [
                         'type' => 'color',
