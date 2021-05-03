@@ -1,0 +1,21 @@
+#textbanner {
+    text-align: center;
+    width: 100%;
+
+    cursor: default;
+
+    font-family: Verdana,Arial,sans-serif;
+}
+
+.textbanner-container {
+    display: block;
+    width: 100%;
+
+    padding: 10px 5px;
+
+    font-size: 25px;
+}
+
+.textbanner-container.no-pointer {
+    cursor: default !important;
+}

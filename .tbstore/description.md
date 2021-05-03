@@ -1,0 +1,1 @@
+Create a text-only banner at the top of your shop.
