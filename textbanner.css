@@ -1,5 +1,4 @@
 #textbanner {
-    text-align: center;
     width: 100%;
 
     cursor: default;
@@ -16,6 +15,10 @@
     font-size: 25px;
 }
 
-.textbanner-container.no-pointer {
-    cursor: default !important;
+.textbanner-container.pointer {
+    cursor: pointer !important;
+}
+
+.textbanner-container p {
+    margin: 0;
 }
