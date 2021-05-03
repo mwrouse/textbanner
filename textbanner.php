@@ -15,6 +15,7 @@ class TextBanner extends Module
     const BGCOLOR = 'TEXTBANNER_BGCOLOR';
     const BGCOLOR_HOVER = 'TEXTBANNER_BGCOLORHOVER';
     const FGCOLOR = 'TEXTBANNER_FGCOLOR';
+    const FGCOLOR_HOVER = 'TEXTBANNER_FGCOLORHOVER';
     const ENABLED = 'TEXTBANNER_ENABLED';
 
     /**
@@ -95,6 +96,7 @@ class TextBanner extends Module
             static::BGCOLOR,
             static::BGCOLOR_HOVER,
             static::FGCOLOR,
+            static::FGCOLOR_HOVER,
             static::ENABLED,
                  ] as $key) {
             try {
@@ -155,6 +157,7 @@ class TextBanner extends Module
                         'banner_bgcolor' => Configuration::get(static::BGCOLOR),
                         'banner_bgcolor_hover' => Configuration::get(static::BGCOLOR_HOVER),
                         'banner_fgcolor' => Configuration::get(static::FGCOLOR),
+                        'banner_fgcolor_hover' => Configuration::get(Static::FGCOLOR_HOVER),
                         'banner_enabled' => Configuration::get(static::ENABLED, $this->context->language->id),
                     ]
                 );
@@ -193,6 +196,7 @@ class TextBanner extends Module
         $bgColor = Configuration::get(static::BGCOLOR);
         $bgColorHover = Configuration::get(static::BGCOLOR_HOVER);
         $fgColor = Configuration::get(static::FGCOLOR);
+        $fgColorHover = Configuration::get(static::FGCOLOR_HOVER);
 
         $css = '<!-- Text Banner Styling -->';
         $css .='<style>';
@@ -204,6 +208,9 @@ class TextBanner extends Module
         }
         if (!empty($fgColor)) {
             $css .= '#textbanner .textbanner-container { color:' . $fgColor . ';}';
+        }
+        if (!empty($fgColorHover)) {
+            $css .= '#textbanner .textbanner-container::hover { color:' . $fgColorHover . ';}';
         }
         $css .= '</style>';
 
@@ -234,6 +241,7 @@ class TextBanner extends Module
                 $values[static::BGCOLOR] = Tools::getValue(static::BGCOLOR);
                 $values[static::BGCOLOR_HOVER] = Tools::getValue(static::BGCOLOR_HOVER);
                 $values[static::FGCOLOR] = Tools::getValue(static::FGCOLOR);
+                $values[static::FGCOLOR_HOVER] = Tools::getValue(static::FGCOLOR_HOVER);
                 $values[static::ENABLED][$idLang] = Tools::getValue(static::ENABLED);
             }
 
@@ -245,6 +253,7 @@ class TextBanner extends Module
             Configuration::updateValue(static::BGCOLOR, $values[static::BGCOLOR]);
             Configuration::updateValue(static::BGCOLOR_HOVER, $values[static::BGCOLOR_HOVER]);
             Configuration::updateValue(static::FGCOLOR, $values[static::FGCOLOR]);
+            Configuration::updateValue(static::FGCOLOR_HOVER, $values[static::FGCOLOR_HOVER]);
             Configuration::updateValue(static::ENABLED, $values[static::ENABLED]);
 
             $this->_clearCache('TEXTBANNER.tpl');
@@ -318,6 +327,11 @@ class TextBanner extends Module
                         'type' => 'color',
                         'label' => $this->l('Text Color'),
                         'name' => static::FGCOLOR
+                    ],
+                    [
+                        'type' => 'color',
+                        'label' => $this->l('Text Hover Color'),
+                        'name' => static::FGCOLOR_HOVER
                     ]
 
                 ],
@@ -384,6 +398,10 @@ class TextBanner extends Module
                     static::FGCOLOR,
                     Configuration::get(static::FGCOLOR)
                 );
+                $fields[static::FGCOLOR_HOVER] = Tools::getValue(
+                    static::FGCOLOR_HOVER,
+                    Configuration::get(static::FGCOLOR_HOVER)
+                );
 
 
                 $fields[static::ENABLED] = Tools::getValue(
@@ -397,6 +415,7 @@ class TextBanner extends Module
                 $fields[static::BGCOLOR] = '';
                 $fields[static::BGCOLOR_HOVER] = '';
                 $fields[static::FGCOLOR] = '';
+                $fields[static::FGCOLOR_HOVER] = '';
                 $fields[static::ENABLED] = 0;
             }
         }
@@ -433,6 +452,7 @@ class TextBanner extends Module
         $values[static::BGCOLOR]= '';
         $values[static::BGCOLOR_HOVER]= '';
         $values[static::FGCOLOR] = '';
+        $values[static::FGCOLOR_HOVER]= '';
         $values[static::ENABLED] = 0;
 
         Configuration::updateValue(static::LINK, $values[static::LINK]);
@@ -440,6 +460,7 @@ class TextBanner extends Module
         Configuration::updateValues(static::BGCOLOR, $values[static::BGCOLOR]);
         Configuration::updateValues(static::BGCOLOR_HOVER, $values[static::BGCOLOR_HOVER]);
         Configuration::updateValues(static::FGCOLOR, $values[static::FGCOLOR]);
+        Configuration::updateValues(static::FGCOLOR_HOVER, $values[static::FGCOLOR_HOVER]);
         Configuration::updateValues(static::ENABLED, $values[static::ENABLED]);
     }
 
