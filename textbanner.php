@@ -10,7 +10,6 @@ if (!defined('_TB_VERSION_')) {
  */
 class TextBanner extends Module
 {
-    const FIXTURE_IMAGE = 'sale70.png';
     const LINK = 'TEXTBANNER_LINK';
     const TEXT = 'TEXTBANNER_TEXT';
     const BGCOLOR = 'TEXTBANNER_BGCOLOR';
@@ -71,10 +70,7 @@ class TextBanner extends Module
     public function hookActionObjectLanguageAddAfter($params)
     {
         try {
-            return $this->installFixture(
-                (int) $params['object']->id,
-                Configuration::get(static::IMAGE, (int) Configuration::get('PS_LANG_DEFAULT'))
-            );
+            return $this->installFixture((int) $params['object']->id);
         } catch (Exception $e) {
             Logger::addLog("TEXTBANNER hook error: {$e->getMessage()}");
 
@@ -134,25 +130,12 @@ class TextBanner extends Module
      */
     public function hookDisplayHeader()
     {
-        $this->context->controller->addCSS($this->_path.'textbanner.css', 'all');
+        $enabled = Configuration::get(static::ENABLED, $this->context->language->id);
+        if ($enabled == 1) {
+            $this->context->controller->addCSS($this->_path.'textbanner.css', 'all');
 
-        $bgColor = Configuration::get(static::BGCOLOR);
-        $bgColorHover = Configuration::get(static::BGCOLOR_HOVER);
-        $fgColor = Configuration::get(static::FGCOLOR);
-
-        $css = '<!-- Text Banner Styling -->';
-        $css .='<style>';
-        if (!empty($bgColor)) {
-            $css .= '#textbanner .textbanner-container { background-color:' . $bgColor . ';}';
+           return $this->getStyling();
         }
-        if (!empty($bgColorHover)) {
-            $css .= '#textbanner .textbanner-container::hover { background-color:' . $bgColorHover .';}';
-        }
-        if (!empty($fgColor)) {
-            $css .= '#textbanner .textbanner-container { color:' . $fgColor . ';}';
-        }
-        $css .= '</style>';
-        return $css;
     }
 
     /**
@@ -200,6 +183,31 @@ class TextBanner extends Module
 
             return '';
         }
+    }
+
+
+    /**
+     * Returns styling for the banner if enabled
+     */
+    public function getStyling() {
+        $bgColor = Configuration::get(static::BGCOLOR);
+        $bgColorHover = Configuration::get(static::BGCOLOR_HOVER);
+        $fgColor = Configuration::get(static::FGCOLOR);
+
+        $css = '<!-- Text Banner Styling -->';
+        $css .='<style>';
+        if (!empty($bgColor)) {
+            $css .= '#textbanner .textbanner-container { background-color:' . $bgColor . ';}';
+        }
+        if (!empty($bgColorHover)) {
+            $css .= '#textbanner .textbanner-container::hover { background-color:' . $bgColorHover .';}';
+        }
+        if (!empty($fgColor)) {
+            $css .= '#textbanner .textbanner-container { color:' . $fgColor . ';}';
+        }
+        $css .= '</style>';
+
+        return $css;
     }
 
     /**
@@ -417,7 +425,7 @@ class TextBanner extends Module
      * @throws PrestaShopException
      * @throws HTMLPurifier_Exception
      */
-    protected function installFixture($idLang, $image = null)
+    protected function installFixture($idLang)
     {
         $values = [];
         $values[static::LINK][(int) $idLang] = '';
